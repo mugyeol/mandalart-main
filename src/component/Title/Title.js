@@ -9,7 +9,7 @@ const TitleWrapper = styled.div`
 const Title = () => {
   return (
     <TitleWrapper>
-      <h1>mandalart</h1>
+      <h1>Mandalart...</h1>
     </TitleWrapper>
   );
 };

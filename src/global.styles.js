@@ -37,10 +37,16 @@ const GlobalStyle = createGlobalStyle`
   }
   h1 {
     color: var(--yellow);
-    font-size: 3rem;
-    margin-top: 3rem
+    font-size: 3.5rem;
+    margin: 4rem auto 4rem auto
+  }
+  h2 {
+    color: var(--purple);
+    font-size: 2.5rem;
+    margin: 3rem auto 3rem auto
   }
   button {
+    font-size: 1rem;
 		border: none;
 		background: none;
 		cursor: text;

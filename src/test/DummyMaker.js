@@ -1,26 +1,35 @@
-import React from "react";
 
-export function makeSections() {
-    const arr = [{ id: "mcho@naver.com", mandal: [] }];
-    for (let index = 0; index < 9; index++) {
-      arr[0].mandal.push({goals: [] });
+// function makeSections() {
+//   // const arr = [{ id: "mcho@naver.com", mandal: [] }];
+//   const mandal = [];
+//   for (let index = 0; index < 9; index++) {
+//     mandal.push({ goals: [] });
+//   }
+//   return mandal;
+// }
+
+function makeGoals() {
+  const mandal = []
+  for (let index = 0; index < 9; index++) {
+    mandal.push({goals:[]})
+    for (let i = 0; i < 9; i++) {
+      mandal[index].goals.push({
+        sectionId: "M" + (index + 1),
+        goal_id: i,
+        title: "" ,
+        content: "content" + i,
+        success: "N",
+      });
+
     }
-    return arr;
   }
+  return mandal
+}
+export function getDummyData() {
+  // const arr1 = makeSections()
+  // console.log("arr1 : ", arr1)
 
-export function makeGoals() {
-    const arr = [];
+  const arr2 = makeGoals()
 
-    for (let index = 0; index < arr[0].mandal.length; index++) {
-      for (let i = 0; i < 9; i++) {
-        arr[0].mandal[index].goals.push({
-          sectionId:"M"+(index+1),
-          goal_id: i,
-          title: "t" + i,
-          content: "content" + i,
-          success: "N"
-        });
-      }
-    }
-  }
-
+  return arr2
+}

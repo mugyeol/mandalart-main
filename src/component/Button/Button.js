@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 const ButtonWrapper = styled.button`
   width: 10rem;
-  height: 2rem;
+  height: 2.5rem;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -27,7 +27,5 @@ const Button = ({ onClick, children, row }) => {
     </ButtonWrapper>
   );
 };
-
-
 
 export default Button;

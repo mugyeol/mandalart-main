@@ -26,6 +26,7 @@ const GoalBoxSection = (props) => {
           sectionIndex={props.sectionIndex}
           goal={goalItem}
           onAddGoal={addGoalHandler}
+          // placeholder = {props.placeholder[index].title}
         />
       ))}
     </Section>

@@ -11,8 +11,8 @@ function App() {
     <Fragment>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<Login/>} />
-        <Route path="/main" element={<GoalBoxMain />} />
+        <Route path="/" element={<GoalBoxMain/>} />
+        <Route path="/login" element={<Login/>} />
         <Route path="/redirectKakao" element={<RedirectKakao />} />
       </Routes>
 

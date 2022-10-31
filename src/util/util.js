@@ -19,7 +19,7 @@ export const sectionFilter = (goalList, sectionId, index) => {
 };
 export const fillSubGoals = (goalList) => {
   const arr = [...goalList];
-  const goalPlaceHolder = "";
+  const goalPlaceHolder = "GOAL ";
 
   for (let index = 0; index < 9; index++) {
     for (let i = 0; i < 9; i++) {
