@@ -62,13 +62,15 @@ const GoalBoxMain = () => {
   };
   function updateGoals() {
     const postUrl = "http://129.154.220.20:55555/ma/maupdate";
+    const object = {
+      access_token: localStorage.getItem("access_token"),
+      mandal: goalStates,
+    }
+    console.log("object to update ", object)
     fetch(postUrl, {
       method: "PATCH",
       headers: { "Content-Type": "application/Json" },
-      body: JSON.stringify({
-        access_token: localStorage.getItem("access_token"),
-        mandal: goalStates,
-      }),
+      body: JSON.stringify(object),
     })
       .then((res) => {
         return res.json();
