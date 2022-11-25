@@ -51,6 +51,9 @@ const GlobalStyle = createGlobalStyle`
 		background: none;
 		cursor: text;
 	}
-  
+  .example {
+    position: absolute;
+		width: 90%;
+	}
 `;
 export default GlobalStyle;

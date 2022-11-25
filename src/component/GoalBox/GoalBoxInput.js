@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { inputFilter } from "../../util/util";
 import React, { Fragment } from "react";
 
@@ -10,57 +10,41 @@ const Div = styled.div`
   background-color: white;
   align-items: center;
   cursor: text;
+  position: relative;
 
-  span {
+  textarea {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 100%;
     width: 100%;
-    max-height: 100%;
-    /* font-size: 1.3rem; */
-    /* opacity: 0.7; */
-    overflow: hidden;
-    vertical-align: top;
+    /* height: 100%; */
+    padding-top: 1.9rem;
     text-align: center;
     text-orientation: center;
-    /* color: var(--placeholder); */
-    &:focus {
-      outline: none;
-    }
+    font-size: 1rem;
+    /* overflow: hidden; */
 
-    &[contentEditable] {
-      overflow-wrap: break-word;
-    }
-
-    &:empty::before {
-      content: attr(data-placeholder);
-      color: var(--placeholder);
-      font-size: 1.125rem;
-      opacity: 0.7;
-      /* color: var(--gray); */
-    }
-    &.main-sub {
-      color: blue;
-      font-size: 1.5rem;
-      font-weight: 500;
-    }
-    &.sub-center[contentEditable]{
-      /* content: attr(data-placeholder); */
-      font-size: 1.5rem;
-      color: var(--orange);
-      font-weight: 500;
-    }
-    &.main-center {
-      font-size: 2rem;
-      color: var(--purple);
-      font-weight: 500;
-    }
-
-    cursor: ${({ filter }) => (filter.isSubCenter ? "default" : "text")};
-
-    /* color: ${({ filter }) =>
-      filter.isMainCenter
-        ? "blue"
-        : filter.isSubCenter || filter.isMainSub
+    /* outline: none; */
+    resize: none;
+    border-style: none;
+    border-color: Transparent;
+    //수정 중일때 폰트 size & color
+    color: ${({ filter }) =>
+      filter.isFinal
         ? "red"
-        : "black"}; */
+        : filter.isMidTerm || filter.isMidTermTwin
+        ? css`var(--purple)`
+        : filter.isShortTerm && "black"};
+
+    font-size: ${({ filter }) =>
+      filter.isFinal
+        ? css`1.3rem`
+        : filter.isMidTerm || filter.isMidTermTwin
+        ? css`1.2rem`
+        : filter.isShortTerm && css`1rem`};
+    cursor: ${({ filter }) => (filter.isMidTermTwin ? "default" : "text")};
   }
 `;
 
@@ -68,62 +52,91 @@ const GoalBoxInput = (props) => {
   //div focus를 누를 때 text cursor로 만들어주기
   const onClickSpan = (e) => {
     if (e.target === e.currentTarget) {
-      e.target.querySelector("span").focus();
+      // e.target.querySelector("span").focus();
+    }
+  };
+  const preventSpaceBar = (e) => {
+    console.log("keycode", e.keyCode);
+    console.log("props.goal.title", props.goal.title);
+    if (props.goal.title === "" && e.keyCode === 32) {
+      console.log("preventspacebar");
+      e.preventDefault();
+    }
+  };
+  const preventEnter = (e) => {
+    console.log("keycode", e.keyCode);
+    console.log("key", e.key);
+    console.log("text", e.target.innerText);
+    if (e.key === "Enter") {
+      e.preventDefault();
+      // inputHandler(e)
     }
   };
 
   const inputHandler = (e) => {
-    const goalTitle = e.target.innerText;
-    // goalTitle !== "" &&
-    if (e.key !== "Tab" || !e.shiftKey)
-      //탭할때 빈값 보내주는거 막아주기
-      props.onAddGoal(goalTitle, props.sectionIndex, props.goalIndex);
+    console.log("inputHandlertext", e.target.innerText);
+    console.log("inputHandlertext", e.target.value);
+
+    const goalTitle = e.target.value;
+    console.log(
+      "innerText",
+      e.target.innerText,
+      "section",
+      props.sectionIndex,
+      "goal",
+      props.goalIndex
+    );
+    console.log("onaddgoal e.kye", e.keyCode);
+    if (e.key !== "Tab") {
+      if (e.key !== "Shift") {
+        if (props.goal.title === "" && e.key === " ") {
+        } else {
+          console.log("onaddgoal");
+          props.onAddGoal(goalTitle, props.sectionIndex, props.goalIndex);
+        }
+      }
+    }
   };
 
   // object => key : 1.isSubCenter 2. isMainSub 3. isMainCenter
   const filter = inputFilter(props.sectionIndex, props.goalIndex);
-  const placeholder = () => {
-    if (filter.isMainCenter) {
-      if (props.goal.title.trim().length === 0) {
-        return "MAIN GOAL";
-      } else {
-        return props.goal.title;
-      }
-    }
-    if (filter.isSubCenter) {
-      if (props.goal.title.trim().length === 0) {
-        return "GOAL " + (props.sectionIndex+1);
-      } else {
-        return props.goal.title;
-      }
-    }
-    if (filter.isMainSub) {
-      if (props.goal.title.trim().length === 0) {
-        return "GOAL " + (props.goalIndex+1);
-      } else {
-        return props.goal.title;
-      }
-    }
-    return props.goal.title
-  };
+  function placeholder() {
+    const plhStr = "goaL";
+    return filter.isFinal
+      ? "최종목표"
+      : filter.isMidTerm
+      ? plhStr + (props.goalIndex < 4 ? props.goalIndex + 1 : props.goalIndex)
+      : filter.isMidTermTwin
+      ? plhStr +
+        (props.sectionIndex < 4 ? props.sectionIndex + 1 : props.sectionIndex)
+      : "";
+  }
+
   return (
     <Fragment>
       <Div filter={filter} onClick={onClickSpan}>
-        <span
+        <textarea
+          placeholder={placeholder()}
+          onChange={inputHandler}
+          value={props.goal.title}
+        ></textarea>
+
+        {/* <span
           className={
-            filter.isMainSub
-              ? "main-sub"
-              : filter.isSubCenter
-              ? "sub-center"
-              : filter.isMainCenter
-              ? "main-center"
-              : ""
+            props.goal.title === "" &&
+            (filter.isFinal || filter.isMidTerm || filter.isMidTermTwin)
+              ? "placeholder"
+              : "goal"
           }
-          contentEditable={!filter.isSubCenter}
-          data-placeholder={props.goal.title}
-          // onKeyDown={inputHandler} //이벤트 발생 후 텍스트 인식
-          onKeyUp={inputHandler}
-        ></span>
+          contentEditable={!filter.isMidTermTwin}
+          data-placeholder={placeholder()}
+          data-title={props.goal.title}
+          // onBlur={inputHandler} //이벤트 발생 후 텍스트 인식
+          // onKeyDown={preventSpaceBar}
+          onKeyDown={preventEnter}
+        >
+          {props.goal.title}
+        </span> */}
       </Div>
     </Fragment>
   );

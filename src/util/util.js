@@ -1,15 +1,16 @@
-export const isSubCenter = (sectionId, index) => {
-  return sectionId !== 4 && index === 4;
-};
 export const inputFilter = (sectionId, index) => {
   const filter = {
-    isSubCenter: sectionId !== 4 && index === 4,
-    isMainSub: sectionId === 4 && index !== 4,
-    isMainCenter: sectionId === 4 && index === 4,
+    isMidTermTwin: sectionId !== 4 && index === 4,
+    isMidTerm: sectionId === 4 && index !== 4,
+    isFinal: sectionId === 4 && index === 4,
   };
 
   return filter;
 };
+export const isShortTerm =
+  !inputFilter.isMidTerm &&
+  !inputFilter.isMidTermTwin &&
+  !inputFilter.isFinal;
 export const sectionFilter = (goalList, sectionId, index) => {
   const filter = {
     isActive: goalList[sectionId].goal[index] === "" ? false : true,
@@ -19,20 +20,20 @@ export const sectionFilter = (goalList, sectionId, index) => {
 };
 export const fillSubGoals = (goalList) => {
   const arr = [...goalList];
-  const goalPlaceHolder = "GOAL ";
 
   for (let index = 0; index < 9; index++) {
     for (let i = 0; i < 9; i++) {
-      if (inputFilter(index, i).isSubCenter) {
+      if (inputFilter(index, i).isMidTermTwin) {
         goalList[index].goals[i].title =
-          index < 4 ? goalPlaceHolder + (index + 1) : goalPlaceHolder + index;
+          index < 4 ? placeHolderTitle + (index + 1) : placeHolderTitle + index;
       }
-      if (inputFilter(index, i).isMainSub) {
+      if (inputFilter(index, i).isMidTerm) {
         goalList[index].goals[i].title =
-          i < 4 ? goalPlaceHolder + (i + 1) : goalPlaceHolder + i;
+          i < 4 ? placeHolderTitle + (i + 1) : placeHolderTitle + i;
       }
     }
   }
 
   return arr;
 };
+export const placeHolderTitle = "GOAL";

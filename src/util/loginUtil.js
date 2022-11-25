@@ -15,3 +15,6 @@ export function loginWithKakao() {
     redirectUri: process.env.REACT_APP_KAKAO_REDIRECT_URI,
   });
 }
+export function checkUser (){
+  return localStorage.getItem("access_token") !== null
+}

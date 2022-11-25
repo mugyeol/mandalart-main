@@ -10,6 +10,7 @@ function App() {
   return (
     <Fragment>
       <GlobalStyle />
+      
       <Routes>
         <Route path="/" element={<GoalBoxMain/>} />
         <Route path="/login" element={<Login/>} />
