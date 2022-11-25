@@ -17,7 +17,7 @@ function makeGoals() {
         sectionId: "M" + (index + 1),
         goal_id: i,
         title: "" ,
-        content: "content" + i,
+        content: "",
         success: "N",
       });
 
@@ -26,10 +26,6 @@ function makeGoals() {
   return mandal
 }
 export function getDummyData() {
-  // const arr1 = makeSections()
-  // console.log("arr1 : ", arr1)
-
-  const arr2 = makeGoals()
-
-  return arr2
+  const mandal = makeGoals()
+  return mandal
 }
